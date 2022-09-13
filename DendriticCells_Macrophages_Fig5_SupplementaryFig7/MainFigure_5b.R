@@ -8,7 +8,7 @@ library(tidyverse)
 DM_RNA <- readRDS("./DM_RNA.rds")
 Idents(DM_RNA) <- "SubclusterAnnotations"
 my_levels <- c("C1","C2","C3", "C4", "C5", "C6", "C7")
-DM_RNA@meta.data$SubclusterAnnotations <- factor(x = DM_RNA@meta.data$SubclusterAnnotations, levels = my_levels)
+DM_RNA@meta.data$SubclusterAnnotations <- factor(x = DM_RNA@meta.data$SubclusterAnnotations, levels = rev(my_levels))
 
 cd_genes <- list('Monocytes'=c("Cd14","S100a8","S100a9"),
                  'Macrophages'=c("Itgax" ,"Csf1r", "Fcgr3", "Adgre1", "Ms4a7", "Cd68", "H2-Ab1", "Fcgr1", "C1qa"),
