@@ -1,0 +1,41 @@
+####Cell Proportion Plots####
+
+Meta <- scRNA_seq_expt_comb_harmony_umap_2@meta.data
+#Meta$celltype.age <- paste(Idents(scRNA_seq_expt_comb_harmony_umap_2), scRNA_seq_expt_comb_harmony_umap_2$orig.ident, sep = "_")
+#Meta$celltype.age.rep <- paste(Meta$celltype.age, Meta$replicate, sep = "_")
+Meta.2 <- Meta[,c(1,4,9)]
+Meta.2 <- Meta.2 %>% group_by_all() %>% summarise(COUNT = n())
+#write.csv(Meta.2,"C:/Users/angarb/Box/Anczukow_lab_NGS_raw_data/Aging single cells/Subclustering/Single_Cell_June2021/Epi_Cell_Count_122022.csv")
+Meta.2 <- read.csv("C:/Users/angarb/Box/Anczukow_lab_NGS_raw_data/Aging single cells/Subclustering/Single_Cell_June2021/Epi_Cell_Count_122022_BA.csv")
+Meta.2$replicate <- gsub("M3","M18",Meta.2$replicate)
+NewMeta = dcast(Meta.2, replicate + new_cluster_ids ~ orig.ident, sum, value.var = "COUNT_New") 
+NewMeta$Ratio <- log2(NewMeta$mm10_18mths/NewMeta$mm10_3mths)
+NewMeta <- NewMeta[,c(1,2,5)]
+NewMeta$new_cluster_ids <- as.character(NewMeta$new_cluster_ids)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep1","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep2","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep3","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep4","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep5","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep6","Base",0)
+NewMeta$new_cluster_ids <- as.factor(NewMeta$new_cluster_ids)
+NewMeta$Ratio <- as.numeric(NewMeta$Ratio)
+
+#colr1 <- c("orangered1","deepskyblue","lightblue2","darkblue","purple","dodgerblue3", "goldenrod2", "firebrick4", "lightpink", "springgreen4")
+colr <- c("springgreen4", "#3ABCED", "#46206B", "#BC46B6", "#B3DFED", "#2C73BA", "#0C911F", "#B2EDD1", "#0AC48F",  "#153827", "#BD9ED8", "#F8B4C0")
+         
+p1 <- ggplot(NewMeta,aes(x = reorder(new_cluster_ids, -Ratio), y = Ratio, fill = new_cluster_ids)) + 
+  geom_boxplot()+
+  scale_fill_manual(values=(colr)) +
+  xlab("CellTypes") +
+  ylab("log2 FC (Old/Young)") + 
+  ggtitle("Cell Type Proportions") +
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.4, binwidth = 0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=0, linetype="dashed", color = "black") +
+  stat_compare_means(method = "anova", label.y = 10) +        # Add global annova p-value
+  stat_compare_means(label = "p.signif", method = "t.test",ref.group = "Base", hide.ns = T, label.y = 8)   
+p1                                                                            
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/EpithelialCells_RNA_Pvals.pdf", height = 7, width = 8)
+p1
+dev.off()
