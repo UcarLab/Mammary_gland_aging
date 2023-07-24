@@ -1,0 +1,15 @@
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Fn1.pdf", height = 5, width = 5)
+FeaturePlot(subset_Fibro, features = c("Fn1"), cols = c("lightgrey", "red3"), label = F, slot = "scale.data") +xlim(c(-7,10))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Col5a3.pdf", height = 5, width = 5)
+FeaturePlot(subset_Fibro, features = c("Col5a3"), cols = c("lightgrey", "red3"), label = F, slot = "scale.data") +xlim(c(-7,10))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Fap.pdf", height = 5, width = 5)
+FeaturePlot(subset_Fibro, features = c("Fap"), cols = c("lightgrey", "red3"), label = F, slot = "scale.data") +xlim(c(-7,10))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Fabp4.pdf", height = 5, width = 5)
+FeaturePlot(subset_Fibro, features = c("Fabp4"), cols = c("lightgrey", "red3"), label = F, slot = "scale.data") +xlim(c(-7,10))
+dev.off()
