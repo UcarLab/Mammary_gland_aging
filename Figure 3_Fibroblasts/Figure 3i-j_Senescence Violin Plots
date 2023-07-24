@@ -1,0 +1,8 @@
+df <- subset(subset_Fibro, subset = Cdkn1a > 0)
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Manuscript/Figures/Figure 3 - Fibroblasts/Dotplots/Fibroblasts_Violin_Cdkn1a.pdf", height = 5, width = 10)
+VlnPlot(object = df, features = "Cdkn1a", split.by= 'orig.ident', log=TRUE)+ stat_compare_means(method = "t.test") 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Manuscript/Figures/Figure 3 - Fibroblasts/Dotplots/Fibroblasts_Violin_Cdkn1a_Age.pdf", height = 5, width = 10)
+VlnPlot(object = df, features = 'Cdkn1a', group.by = 'orig.ident') + stat_compare_means(method = "t.test")
+dev.off()
