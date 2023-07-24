@@ -109,16 +109,6 @@ table(tumor_quant$New_Column)
 normal_quant <- subset(brca_dds_colData_final, brca_dds_colData_final$ShortLetterCode == 'NT')
 table(normal_quant$New_Column)
 
-# Looking at age histogram
-age_1 <- ggplot(tumor_quant, aes(x=age_at_index,fill = Subtype_mRNA)) + geom_histogram(colour= 'black', bins = 5)
-print(age_1)
-age_2 <- ggplot(tumor_quant, aes(x=age_at_index)) + geom_histogram(colour= 'black', bins = 5)
-print(age_2)
-age_3 <- density(tumor_quant$age_at_index) # returns the density data
-plot(age_3)
-
-hist(tumor_quant$age_at_index)
-
 #Subset counts data based on metadata and validating in correct order
 brca_all_counts <- BRCAMatrix[,colnames(BRCAMatrix) %in% brca_dds_colData_final$associated_entities.entity_submitter_id]
 dim(brca_all_counts)
@@ -140,7 +130,6 @@ dds$ShortLetterCode <- factor(dds$ShortLetterCode, levels = c("NT","TP"))
 row_sums <- as.data.frame(rowSums(as.data.frame(counts(dds))))
 keep <- row_sums>=10
 dds <- dds[keep,]
-
 
 ## PCA plots ---- 
 brca_vsd_blind <- vst(dds, blind=TRUE)
@@ -171,8 +160,6 @@ plot_LU_pca <- function(pca_df, var_name){
 plot_LU_pca(pca.res.df, var_name="ShortLetterCode")
 plot_LU_pca(pca.res.df, var_name="New_Column")
 plot_LU_pca(pca.res.df, var_name="Subtype_mRNA")
-plot_LU_pca(pca.res.df, var_name="age_at_index")
-plot_LU_pca(pca.res.df, var_name="tumor_stage")
 
 # run DESeq
 BRCA_dds_postDDS <- DESeq(dds)
@@ -209,28 +196,6 @@ sum(res_significant$log2FoldChange>0)
 #9495
 
 write.csv(res_df, "C:/Users/angarb/OneDrive - The Jackson Laboratory/Documents/Anczukow Lab/TCGA_MatchDGE/AllTumors_07262022/Outputs/TCGA_LuminalAvsNormal_DE.csv") 
-
-# plot counts for specific gene
-e <- plotCounts(BRCA_dds_postDDS, gene= "ENSG00000073111", intgroup= "New_Column", returnData=TRUE)
-e$log2 <- log2(e$count+1)
-e <- e %>% mutate(New_Column=factor(New_Column,levels=c("Normal Tissue", "LumA")))
-
-p <- ggplot(e, aes(x= New_Column, y=log2)) + 
-  geom_violin(trim=FALSE)+
-  labs(title= "MCM2") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0), text = element_text(size=20))
-
-p+ geom_jitter(shape=16, position=position_jitter(0.2))
-
-f <- plotCounts(BRCA_dds_postDDS, gene= "ENSG00000073111", intgroup= "ShortLetterCode", returnData=TRUE)
-f$log2 <- log2(f$count+1)
-
-p <- ggplot(f, aes(x= ShortLetterCode, y=log2)) + 
-  geom_violin(trim=FALSE)+
-  labs(title= "MCM2") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0), text = element_text(size=20))
-
-p+ geom_jitter(shape=16, position=position_jitter(0.2)) + stat_compare_means(method = "t.test")
 
 # extract normalized counts 
 BRCA_norm_counts <- counts(BRCA_dds_postDDS, normalized=TRUE)
