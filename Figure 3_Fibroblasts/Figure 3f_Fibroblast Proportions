@@ -1,0 +1,50 @@
+Meta <- scRNA_seq_expt_comb_harmony_umap_3@meta.data
+Meta.2 <- Meta[,c(1,4,8)]
+Meta.2 <- Meta.2 %>% group_by_all() %>% summarise(COUNT = n())
+#write.csv(Meta.2,"C:/Users/angarb/Box/Anczukow_lab_NGS_raw_data/Aging single cells/Subclustering/Single_Cell_June2021/Fibro_Cell_Count_122022.csv")
+#I manually edited the csv file to add one to every cluster replicate to capture cell types that were absent in young and present in old. These were generating inf.
+Meta.2 <- read.csv("C:/Users/angarb/Box/Anczukow_lab_NGS_raw_data/Aging single cells/Subclustering/Single_Cell_June2021/Fibro_Cell_Count_122022_BA.csv")
+Meta.2$replicate <- gsub("M3","M18",Meta.2$replicate)
+NewMeta = dcast(Meta.2, replicate + RNA_snn_res.0.4 ~ orig.ident, sum, value.var = "COUNT_New") 
+NewMeta$Ratio <- log2(NewMeta$mm10_18mths/NewMeta$mm10_3mths)
+NewMeta <- NewMeta[,c(1,2,5)]
+NewMeta$RNA_snn_res.0.4 <- as.character(NewMeta$RNA_snn_res.0.4)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep1","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep2","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep3","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep4","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep5","Base",0)
+NewMeta[nrow(NewMeta) + 1,] <- c("M18_rep6","Base",0)
+NewMeta$RNA_snn_res.0.4 <- as.factor(NewMeta$RNA_snn_res.0.4)
+NewMeta$Ratio <- as.numeric(NewMeta$Ratio)
+
+colr <- c("springgreen4","goldenrod2", "violetred", "darkblue","turquoise","purple", "firebrick4", "deepskyblue", "lightblue2", "lightpink", "darkorange", "black")
+
+p1 <- ggplot(NewMeta,aes(x = reorder(RNA_snn_res.0.4, -Ratio), y = Ratio, fill = RNA_snn_res.0.4)) + 
+  geom_boxplot()+
+  scale_fill_manual(values=(colr)) +
+  xlab("CellTypes") +
+  ylab("log2 FC (Old/Young)") + 
+  ggtitle("Cell Type Proportions") +
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.15, binwidth = 0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #ylim(c(-2,5)) +
+  geom_hline(yintercept=0, linetype="dashed", color = "black") +
+  stat_compare_means(method = "anova", label.y = 10) +        # Add global annova p-value
+  stat_compare_means(label = "p.signif", method = "t.test",ref.group = "Base", hide.ns = T, label.y = 8)   
+p1                                                                            
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/Fibroblasts_RNA_Pvals.pdf", height = 7, width = 8)
+p1
+dev.off()
+
+##########################################
+Meta %>% dplyr::filter(Idents(scRNA_seq_expt_comb_harmony_umap_3) == "0"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "6"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "1"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "4"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "3"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "10"|
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "7") -> Fibro_Cells
+dim(Fibro_Cells)
+cell_to_keep_Fib <- row.names(Fibro_Cells)
+length(cell_to_keep_Fib)
+
+subset_Fibro = subset(scRNA_seq_expt_comb_harmony_umap_3, cells = cell_to_keep_Fib)
+table(Idents(subset_Fibro))
