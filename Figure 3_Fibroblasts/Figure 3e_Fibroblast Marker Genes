@@ -1,6 +1,0 @@
-DotPlot(subset_Fibro, features = c("Penk", "Fbln1","Tnc", "Fmo1", "Postn", "Mfap4", "Spon1","Crabp1","Col15a1", 
-                                   "Col6a3", "Col5a3", "Col4a1", "Col4a2", "Lpl", "Fabp4", "Pparg", "Fap",
-                                   "Gdf10", "F3", "Hmcn2", "Gpc3", "Dpt", "Ly6a",
-                                   "Pi16", "Dpp4", "Ly6c1", "Tek", "Aldh1a3","Fn1", "Col14a1","Sema3c", "Esr1",
-                                   "Ccl19", "Cxcl12", "Cd74"),
-        dot.scale = 5) + coord_flip() + theme(text = element_text(size=12))
