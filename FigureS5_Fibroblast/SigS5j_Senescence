@@ -1,0 +1,19 @@
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Cdkn1a.pdf", height = 5, width = 10)
+FeaturePlot(subset_Fibro, features = c("Cdkn1a"), split.by = "orig.ident", cols = c("lightgrey", "red3"), label = F, slot = "scale.data") 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblasts_Cdkn2a.pdf", height = 5, width = 10)
+FeaturePlot(subset_Fibro, features = c("Cdkn2a"), split.by = "orig.ident", cols = c("lightgrey", "red3"), label = F, slot = "scale.data") 
+dev.off()
+
+df <- subset(subset_Fibro, subset = Cdkn1a > 0)
+table(df@meta.data$seurat_clusters)
+tbl <- table(df@meta.data$orig.ident)
+pie(tbl, main = "Cdkn1a")             
+tbl
+
+df <- subset(subset_Fibro, subset = Cdkn2a > 0)
+table(df@meta.data$seurat_clusters)
+tbl <- table(df@meta.data$orig.ident)
+pie(tbl, main = "Cdkn2a")             
+tbl
