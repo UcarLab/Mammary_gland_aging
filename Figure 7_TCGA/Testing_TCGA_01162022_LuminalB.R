@@ -210,28 +210,6 @@ sum(res_significant$log2FoldChange>0)
 
 write.csv(res_df, "C:/Users/angarb/OneDrive - The Jackson Laboratory/Documents/Anczukow Lab/TCGA_MatchDGE/AllTumors_07262022/Outputs/TCGA_LuminalBvsNormal_DE.csv") 
 
-# plot counts for specific gene
-e <- plotCounts(BRCA_dds_postDDS, gene= "ENSG00000073111", intgroup= "New_Column", returnData=TRUE)
-e$log2 <- log2(e$count+1)
-e <- e %>% mutate(New_Column=factor(New_Column,levels=c("Normal Tissue", "LumB")))
-
-p <- ggplot(e, aes(x= New_Column, y=log2)) + 
-  geom_violin(trim=FALSE)+
-  labs(title= "MCM2") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0), text = element_text(size=20))
-
-p+ geom_jitter(shape=16, position=position_jitter(0.2))
-
-f <- plotCounts(BRCA_dds_postDDS, gene= "ENSG00000073111", intgroup= "ShortLetterCode", returnData=TRUE)
-f$log2 <- log2(f$count+1)
-
-p <- ggplot(f, aes(x= ShortLetterCode, y=log2)) + 
-  geom_violin(trim=FALSE)+
-  labs(title= "MCM2") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 0), text = element_text(size=20))
-
-p+ geom_jitter(shape=16, position=position_jitter(0.2)) + stat_compare_means(method = "t.test")
-
 # extract normalized counts 
 BRCA_norm_counts <- counts(BRCA_dds_postDDS, normalized=TRUE)
 write.csv(BRCA_norm_counts, "C:/Users/angarb/OneDrive - The Jackson Laboratory/Documents/Anczukow Lab/TCGA_MatchDGE/AllTumors_07262022/Outputs/Normcounts_TCGA_LumBvsNormal.csv") 
