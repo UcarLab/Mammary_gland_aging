@@ -1,0 +1,6 @@
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/Age_uMAP/Epithelial_Aging_Split_Recolor.pdf", height=10, width=20)
+scRNA_seq_expt_comb_harmony_umap_2$orig.ident <- factor(x = scRNA_seq_expt_comb_harmony_umap_2$orig.ident, levels = c("mm10_3mths", "mm10_18mths"))
+DimPlot(scRNA_seq_expt_comb_harmony_umap_2, reduction = "umap", split.by = "orig.ident", cols = c("#BD9ED8", "#0C911F", "#F8B4C0", "#B2EDD1", 
+                                                                         "#3ABCED", "#0AC48F", "#B3DFED","#BC46B6", 
+                                                                         "#153827", "#2C73BA", "#46206B"), label = TRUE, pt.size = .1, label.size = 9) + theme(text = element_text(size=20, face = "bold")) 
+dev.off()
