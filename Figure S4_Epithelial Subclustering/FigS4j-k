@@ -1,0 +1,85 @@
+#####Dotplot
+Meta %>% dplyr::filter(Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C8"| Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C9"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C10"| Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C11") -> Myoep_Cells
+dim(Myoep_Cells)
+cell_to_keep_Myo <- row.names(Myoep_Cells)
+length(cell_to_keep_Myo)
+
+subset_Myo = subset(scRNA_seq_expt_comb_harmony_umap_2, cells = cell_to_keep_Myo)
+table(Idents(subset_Myo))
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/Dotplot_Myoepithelial.pdf", height=20, width=20)
+DotPlot(subset_Myo, features = c("Epcam", "Krt15", "Krt17", "Krt14", "Krt5", "Acta2", "Myl9", "Mylk", "Myh11",
+                                     "Tagln", "Postn", "Actg2", 
+                                     "Ccl2", "Cxcl10","Irgm1", "Stat1", "Tap1", "H2-Ab1", "H2-Eb1", "Cd74"),
+        dot.scale = 5) + coord_flip() + theme(text = element_text(size=12))
+dev.off()
+
+####Proportions Table
+###Create a proportions table
+y=prop.table(x=table(subset_Myo$orig.ident, as.character(subset_Myo$new_cluster_ids)), margin=2)
+
+###Adding proportions for all of the cells
+nbr_row <- length(unique(subset_Myo$orig.ident))
+ALL <- vector("numeric", nbr_row) # prepare a container
+
+for (i in 1:nbr_row) {
+  res <- table(subset_Myo$orig.ident)[[i]]/dim(subset_Myo)[2]
+  ALL[i] <- res         # change to assignment
+}
+ALL
+
+y1 <- cbind(y, All=ALL)
+y1
+
+#Change to long version of the table and rename the columns
+df1 <- melt(y1)
+head(df1)
+length(unique(subset_Myo$new_cluster_ids))
+colnames(df1) <- c("orig.ident", "Clusters", "Percentage")
+head(df1)
+
+#To order the clusters
+ordered_clusters <- c('All', 'C8', 'C9', 'C10', 'C11')
+
+#To color the ages
+col_orig.ident = c('mm10_3mths'= "#9e9ac8",
+                   'mm10_18mths'= "#66c2a4")
+
+##Plot with ggplot
+p_Age <- ggplot(data=df1, aes(x=as.character(Clusters), y=Percentage, 
+                              fill=factor(orig.ident, levels=c('mm10_3mths',"mm10_18mths"))))+ 
+  geom_bar(stat="identity", color="black", position =position_fill(reverse = TRUE)) +
+  scale_fill_manual(values=col_orig.ident) + 
+  scale_x_discrete(limits=ordered_clusters) +
+  theme(axis.text.x = element_text(size = 20))+
+  theme(axis.text.y =  element_text(size = 20))+
+  theme(axis.title = element_text(size = 20))+
+  labs(fill='orig.ident') + 
+  ylab("Proportion of cells") +
+  xlab("Clusters") +
+  ggtitle("orig.ident")+
+  geom_hline(yintercept = 0.2168465,linetype="dotted", size=1) 
+
+print(p_Age)
+
+ggsave("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/Myo_Prop.pdf", 
+       p_Age , width=3, height=1.7,  units="in", scale=3)
+
+####Plotting uMAP and Feature Plots
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Myo/Myo_UMAP.pdf", height=20, width=20)
+DimPlot(subset_Myo, reduction = "umap", cols = c("#BD9ED8", "#F8B4C0", "#46206B", "#BC46B6"), 
+        label = TRUE, label.size = 7) + theme(text = element_text(size=15)) + ylim(c(-3,4.2)) + xlim(c(4,10.5))  
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Myo/Myo_Krt15.pdf", height=20, width=20)
+FeaturePlot(subset_Myo, features = c("Krt15"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-3,4.2)) + xlim(c(4,10.5)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Myo/Myo_Actg2.pdf", height=20, width=20)
+FeaturePlot(subset_Myo, features = c("Actg2"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-3,4.2)) + xlim(c(4,10.5)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Myo/Myo_Cd74.pdf", height=20, width=20)
+FeaturePlot(subset_Myo, features = c("Cd74"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-3,4.2)) + xlim(c(4,10.5)) 
+dev.off()
