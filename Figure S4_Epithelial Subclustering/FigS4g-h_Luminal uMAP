@@ -1,0 +1,51 @@
+###Plotting uMAP and Feature Plots
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/HS_UMAP.pdf", height=20, width=20)
+DimPlot(subset_Luminal_HS, reduction = "umap", cols = c("#3ABCED", "#B3DFED", "#2C73BA"), 
+        label = TRUE, label.size = 7) + theme(text = element_text(size=15)) + ylim(c(9.5,14.5)) +xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/LuminalHS_Fxyd2.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_HS, features = c("Fxyd2"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(9.5,14.5)) + xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/LuminalHS_Tph1.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_HS, features = c("Tph1"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(9.5,14.5)) + xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/LuminalHS_Rcan1.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_HS, features = c("Rcan1"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(9.5,14.5)) + xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/LuminalHS_Kit.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_HS, features = c("Kit"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(9.5,14.5)) + xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPs/Luminal_HS/LuminalHS_Wfdc18.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_HS, features = c("Wfdc18"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(9.5,14.5)) + xlim(c(-6.5,-0.5))
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/AV_UMAP.pdf", height=20, width=20)
+DimPlot(subset_Luminal_AV, reduction = "umap", cols = c("#0C911F", "#B2EDD1", "#0AC48F", "#153827"), 
+        label = TRUE, label.size = 7) + theme(text = element_text(size=15)) + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/LuminalAV_Alox12e.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_AV, features = c("Alox12e"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/LuminalAV_Rspo1.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_AV, features = c("Rspo1"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/LuminalAV_Csn3.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_AV, features = c("Csn3"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/LuminalAV_Mcm2.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_AV, features = c("Mcm2"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0)) 
+dev.off()
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/uMAPS/Luminal_AV/LuminalAV_Stmn1.pdf", height=20, width=20)
+FeaturePlot(subset_Luminal_AV, features = c("Stmn1"), cols = c("lightgrey", "red3"), label = F, ncol = 1, slot = "scale.data") + ylim(c(-11,-2)) + xlim(c(-8.5,-2.0))
+dev.off()
