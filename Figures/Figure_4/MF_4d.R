@@ -1,0 +1,18 @@
+library(Seurat)
+library(dplyr)
+scRNA_seq_expt_comb_harmony_umap_3 <- readRDS("path/to/seuratobject")
+Meta <- scRNA_seq_expt_comb_harmony_umap_3@meta.data
+Meta %>% dplyr::filter(Idents(scRNA_seq_expt_comb_harmony_umap_3) == "6"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "0"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "1"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "4"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "3"| Idents(scRNA_seq_expt_comb_harmony_umap_3) == "10"| 
+                         Idents(scRNA_seq_expt_comb_harmony_umap_3) == "7") -> Fibroblast
+dim(Fibroblast)
+cell_to_keep <- row.names(Fibroblast)
+subset_Fibro = subset(scRNA_seq_expt_comb_harmony_umap_3, cells = cell_to_keep)
+my_levels <- c("0", "6", "1", "4", "3", "10", "7")
+subset_Fibro@active.ident <- factor(x = subset_Fibro@active.ident, levels = my_levels)
+
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Manuscript/Figures/Figure 3_Fibroblasts/uMAPS/Fibroblast_uMAP_Subcluster_Fibroblast_Only.pdf", height=10, width=10)
+DimPlot(subset_Fibro, reduction = "umap", cols = c("springgreen4", "deepskyblue", "goldenrod2", "purple", "turquoise", "violetred", "lightblue2"),
+        label = TRUE, pt.size = .1, label.size = 9) + theme(text = element_text(size=20)) + xlim(c(-7,10))
+dev.off()

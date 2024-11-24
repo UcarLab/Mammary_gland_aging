@@ -1,0 +1,14 @@
+##Plotting Single Cell Heatmap
+library(Seurat)
+library(dplyr)
+library(ggplot2)
+
+scRNA_seq_expt_comb_harmony_umap_2 <- readRDS("path/to/object")
+my_levels <- c("C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11")
+scRNA_seq_expt_comb_harmony_umap_2@active.ident <- factor(x = scRNA_seq_expt_comb_harmony_umap_2@active.ident, levels = my_levels)
+scRNA_seq_expt_comb_markers <- FindAllMarkers(scRNA_seq_expt_comb_harmony_umap_2, only.pos = FALSE, min.pct = 0.25, test.use = 'LR', latent.vars = 'expt', logfc.threshold = 0.25)
+top5 <- scRNA_seq_expt_comb_markers %>% group_by(cluster) %>% top_n(n = 5, wt = avg_log2FC)
+pdf("C:/Users/angarb/Box/Aging mammary gland paper/Figures/Figure S4 - Epi Subclusters/Top5_Heatmap/Heatmap_top_expressedwithlegend.pdf", height=9, width=4)
+DoHeatmap(scRNA_seq_expt_comb_harmony_umap_2, features = top5$gene, raster = F, lines.width =5, 
+          group.colors = c("#3ABCED", "#B3DFED", "#2C73BA", "#0C911F", "#B2EDD1", "#0AC48F",  "#153827", "#BD9ED8", "#F8B4C0", "#46206B", "#BC46B6"))+ theme(text = element_text(size=5))
+dev.off()

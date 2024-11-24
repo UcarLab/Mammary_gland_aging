@@ -1,0 +1,12 @@
+library(Seurat)
+library(dplyr)
+library(ggplot2)
+scRNA_seq_expt_comb_harmony_umap_3 <- readRDS("path/to/seuratobject")
+new.cluster.ids <- c("Fibroblasts", "Fibroblasts", "Vascular", "Fibroblasts", "Fibroblasts", "Pericytes", "Fibroblasts","Fibroblasts", "Vascular", "Vascular", "Fibroblasts")
+seurat.cluster.ids <- scRNA_seq_expt_comb_harmony_umap_3$seurat_clusters
+names(new.cluster.ids) <- levels(scRNA_seq_expt_comb_harmony_umap_3)
+#cRNA_seq_expt_comb_harmony_umap_3 <- RenameIdents(scRNA_seq_expt_comb_harmony_umap_3,new.cluster.ids)
+
+pdf("~/path/to/pdf", height=10, width=10)
+DimPlot(scRNA_seq_expt_comb_harmony_umap_3, cols = c("#22BDC1","#8BB6E1","#292562"), reduction = "umap", label = TRUE, pt.size = .1, label.size = 9) + theme(text = element_text(size=20)) 
+dev.off()

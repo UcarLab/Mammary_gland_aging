@@ -1,0 +1,19 @@
+###Making uMAP
+library(Seurat)
+library(dplyr)
+library(ggplot2)
+
+scRNA_seq_expt_comb_harmony_umap_2 <- readRDS("path/to/object")
+new.cluster.ids <- c("C8", "C4", "C9", "C5", "C1", "C6", "C2", "C11", "C7", "C3", "C10")
+
+names(new.cluster.ids) <- levels(scRNA_seq_expt_comb_harmony_umap_2)
+scRNA_seq_expt_comb_harmony_umap_2 <- RenameIdents(scRNA_seq_expt_comb_harmony_umap_2,new.cluster.ids)
+
+scRNA_seq_expt_comb_harmony_umap_2$new_cluster_ids <- paste(Idents(scRNA_seq_expt_comb_harmony_umap_2))
+head(scRNA_seq_expt_comb_harmony_umap_2@meta.data)
+
+pdf("path/to/pdf", height=10, width=20)
+DimPlot(scRNA_seq_expt_comb_harmony_umap_2, reduction = "umap",split.by = "orig.ident", cols = c("#BD9ED8", "#0C911F", "#F8B4C0", "#B2EDD1", 
+                                                                         "#3ABCED", "#0AC48F", "#B3DFED","#BC46B6", 
+                                                                         "#153827", "#2C73BA", "#46206B"), label = TRUE, pt.size = .1, label.size = 9) + theme(text = element_text(size=20, face = "bold")) 
+dev.off()
