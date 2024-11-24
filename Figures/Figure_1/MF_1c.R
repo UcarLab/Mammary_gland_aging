@@ -1,0 +1,10 @@
+library(Seurat)
+library(ggplot2)
+library(stringr)
+library(reshape2)
+library(dplyr)
+
+scATAC_seq_expt <- readRDS("~/path/to/Seurat.rds")
+pdf("~/path/to/file")
+plot2 <- DimPlot(object = scATAC_seq_expt, cols = c("#746CB1", "#c00000", "#1BBDC1", "#3DB54A", "#A0D082", "#09713A", "#262262", "#FF9933", "#FFCC33", "#8AB6E1"),group.by = 'predicted.id',label = TRUE,repel = TRUE) + NoLegend() + ggtitle('scATAC-seq')
+dev.off()
