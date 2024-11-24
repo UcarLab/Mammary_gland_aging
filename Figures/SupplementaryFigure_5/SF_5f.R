@@ -1,0 +1,10 @@
+library(Seurat)
+library(ggplot)
+library(dplyr)
+scRNA_seq_expt_comb_harmony_umap_3 <- readRDS("path/to/object")
+scRNA_seq_expt_comb_harmony_umap_3$orig.ident <- factor(x = scRNA_seq_expt_comb_harmony_umap_3$orig.ident, levels = c("mm10_3mths", "mm10_18mths"))
+
+pdf("path/to/pdf", height=10, width=20)
+scRNA_seq_expt_comb_harmony_umap_3$orig.ident <- factor(x = scRNA_seq_expt_comb_harmony_umap_3$orig.ident, levels = c("mm10_3mths", "mm10_18mths"))
+DimPlot(scRNA_seq_expt_comb_harmony_umap_3, reduction = "umap", cols = c("springgreen4","goldenrod2","darkblue","turquoise","purple", "firebrick4", "deepskyblue", "lightblue2", "lightpink", "darkorange", "violetred"), split.by = "orig.ident", label = TRUE, label.size = 9) + theme(text = element_text(size=20)) 
+dev.off()

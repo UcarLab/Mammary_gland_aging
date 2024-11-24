@@ -1,4 +1,9 @@
 #####Dotplot
+library(Seurat)
+library(dplyr)
+library(ggplot2)
+
+scRNA_seq_expt_comb_harmony_umap_2 <- readRDS("path/to/object")
 Meta %>% dplyr::filter(Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C8"| Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C9"| 
                          Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C10"| Idents(scRNA_seq_expt_comb_harmony_umap_2) == "C11") -> Myoep_Cells
 dim(Myoep_Cells)
