@@ -12,12 +12,12 @@ library(ggpubr)
 normalized_counts <- read.csv("~/path/to Fib C0 counts", sep = '\t')
 sig_genes <- read.csv("~/path/to/Fib C0 diff genes", sep = '\t')
 
-sig_genes_down <- c("Jun","Fos","Jund","Cxcr5","Ccr9","Irf4","Tcf7","Cd27","Lef1")
+sig_genes_down <- c("Htra1","Serpinh1","Ptn","Galnt16","Col1a1","Sema3c","Aoc3")
 sig_genes_down <- as.data.frame(sig_genes_down)
 colnames(sig_genes_down) <- "genes"
 sig_genes_down$Direction <- "Closing"
 
-sig_genes_up <- c("Gzmk","Gzmm","Gzmb","Prf1","Nkg7","S100a4","S100a6","S100a10","S100a13","Ccr2","Cxcr6","Ccr5","Ccl5","Il7r","Ctla2a","Cdk4","Fasl", "Eomes") 
+sig_genes_up <- c("Sept4","Cdkn2a","Cdkn1a","Lsamp","Slc43a3","Crabp1")
 sig_genes_up <- as.data.frame(sig_genes_up)
 colnames(sig_genes_up) <- "genes"
 sig_genes_up$Direction <- "Opening"
@@ -53,12 +53,12 @@ sig_norm_C0 <- sig_norm
 normalized_counts <- read.csv("~/path/to Fib C2 counts", sep = '\t')
 sig_genes <- read.csv("~/path/to/Fib C2 diff genes", sep = '\t')
 
-sig_genes_down <- c("Bach2","Foxp1","Ccr7","Sell","Jun","Ifi209","Ifi213","Ctla2b")
+sig_genes_down <- c("Slc16a1","Sfrp2","Slc36a2","Sdc1","Itm2a","Cxcl10","Gpt2","Fn1","Car3","Meg3")
 sig_genes_down <- as.data.frame(sig_genes_down)
 colnames(sig_genes_down) <- "genes"
 sig_genes_down$Direction <- "Closing"
 
-sig_genes_up <- c("Casp1","S100a4","S100a6","Ccl5","Ccl3","Gzmk","Ifng","Nkg7","Fasl","Socs3","Dusp5")
+sig_genes_up <- c("Gm14964","Cd300lg","Nrxn2","Csprs","Ndufa4l2","Smoc2","Tmem204","Slco2b1","Cdkn1a")
 sig_genes_up <- as.data.frame(sig_genes_up)
 colnames(sig_genes_up) <- "genes"
 sig_genes_up$Direction <- "Opening"
@@ -94,12 +94,12 @@ sig_norm_C2 <- sig_norm
 normalized_counts <- read.csv("~/path/to Fib C3 counts", sep = '\t')
 sig_genes <- read.csv("~/path/to/Fib C3 diff genes", sep = '\t')
 
-sig_genes_down <- c("Jun","Fos","Jund","Cxcr5","Ccr9","Irf4","Tcf7","Cd27","Lef1")
+sig_genes_down <- c("Clec3b","Olfml2b","Sparc","Itm2a","Basp1","Meg3")
 sig_genes_down <- as.data.frame(sig_genes_down)
 colnames(sig_genes_down) <- "genes"
 sig_genes_down$Direction <- "Closing"
 
-sig_genes_up <- c("Gzmk","Gzmm","Gzmb","Prf1","Nkg7","S100a4","S100a6","S100a10","S100a13","Ccr2","Cxcr6","Ccr5","Ccl5","Il7r","Ctla2a","Cdk4","Fasl", "Eomes") 
+sig_genes_up <- c("Fabp4","Acta2","Galnt15","Gdf10","mt-Atp6")
 sig_genes_up <- as.data.frame(sig_genes_up)
 colnames(sig_genes_up) <- "genes"
 sig_genes_up$Direction <- "Opening"
@@ -135,12 +135,12 @@ sig_norm_C3 <- sig_norm
 normalized_counts <- read.csv("~/path/to Fib C4 counts", sep = '\t')
 sig_genes <- read.csv("~/path/to/Fib C4 diff genes", sep = '\t')
 
-sig_genes_down <- c("Lgals3", "Il4", "Icos", "Cd27", "Cd28", "Dusp10")
+sig_genes_down <- c("Il1r2", "Ggt5", "Adam23", "Chrdl1", "Ctsh", "Ccdc80","Spon1",'Igsf10',"Cpxm1","Itm2a")
 sig_genes_down <- as.data.frame(sig_genes_down)
 colnames(sig_genes_down) <- "genes"
 sig_genes_down$Direction <- "Closing"
 
-sig_genes_up <- c("Hspa1b", "Jag1", "Klf9", "Cxcr3", "Tbx21", "Large1", "Serpina3g", "Ccl5","Pglyrp1","Asb2")
+sig_genes_up <- c("C13002612Rik", "Dmkn", "Hmcn2", "Ntn4", "Fdps", "Il34", "Serpine2", "Duox1","Crip2","Adamtsi3")
 sig_genes_up <- as.data.frame(sig_genes_up)
 colnames(sig_genes_up) <- "genes"
 sig_genes_up$Direction <- "Opening"
@@ -177,7 +177,7 @@ rownames(sig_norm_C2) <- paste(rownames(sig_norm_C2), "_C2", sep  = '')
 rownames(sig_norm_C3) <- paste(rownames(sig_norm_C3), "_C3", sep  = '')
 rownames(sig_norm_C4) <- paste(rownames(sig_norm_C4), "_C4", sep  = '')
 
-sig_norm <- rbind(sig_norm_MemCD4, sig_norm_Gzmk, sig_norm_Gzmm, sig_norm_GD)
+sig_norm <- rbind(sig_norm_C0, sig_norm_C2, sig_norm_C3, sig_norm_C4)
 #sig_norm <- as.data.frame(t(sig_norm))
 ann_colors = list(group_id = c(Young = "lightgray", Old = "black"), CellType =c(C0 = "springgreen4", C3 = "purple", C4 = "turquoise", C2 = "goldenrod2"))
 
@@ -193,7 +193,7 @@ colnames(Genes) <- "Genes"
 colnames(Celltype) <- "CellType"
 
 
-pdf("~/path/to/pdf", height = 20, width = 5)
+pdf("~/path/to/pdf", height = 15, width = 5)
 pheatmap(sig_norm,
          color = heat_colors,
          annotation_colors = ann_colors,
@@ -208,5 +208,5 @@ pheatmap(sig_norm,
          fontsize_col = 13,
          scale = "row",
          gaps_col = 6,
-         gaps_row = c(31,50,77))
+         gaps_row = c(13,23,34))
 dev.off()

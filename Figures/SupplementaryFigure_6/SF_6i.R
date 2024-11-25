@@ -16,16 +16,12 @@ WP <- read.csv("~/path/to/wp_hpea-list.csv")
 
 ## Add Module column
 ImmMod$Module <- "ImmuneModules"
-WP$Module <- "Wikipathways"
 
 ## Selecting Modules
-ImmMod <- ImmMod[grep("Inflammation", ImmMod$module.name), ]
+ImmMod <- ImmMod[grep("Inflammation|Cytotoxic Cells", ImmMod$module.name), ]
 ## These modules were picked manually. Were renamed to actual pathways while editing the panels later. 
-WP <- WP[grep("WP619|WP75|WP615|WP382|WP1839|WP585|WP1836|WP1984|WP205|WP2703|WP530",WP$module.name),]
 ImmMod <- ImmMod[(ImmMod$adj.p <= 0.1),]
-WP <- WP[(WP$adj.p <= 0.1),]
-HPEA.table.filtered <- rbind(ImmMod, WP)
-df.plot <- HPEA.table.filtered
+df.plot <- ImmMod
 
 filter.pathways <- TRUE
 fdr.cutoff <- 0.1
@@ -40,7 +36,7 @@ if(filter.pathways){
 df.plot$Status <- factor(df.plot$Status, levels=c("Up", "Down"))
 
 ## Set order for contrast level for Dendritic Cells/Macrophage groups and/or TCells.
-df.plot$contrast <- factor(df.plot$contrast, levels=c("Mye-C1", "Mye-C2","Mye-C3","Mye-C4","Mye-C5","Mye-C6","Mye-C7"))
+df.plot$contrast <- factor(df.plot$contrast, levels=c("Memory CD4", "CD8 GZMK+","CD8 GZMM+","CD8 ISG15+","GD and MAIT"))
 
 # create ggplot
 color_values <- color_values[c(4,7)]
