@@ -1,15 +1,3 @@
-library(Seurat)
-scRNA_seq_expt_comb_harmony_umap_2 <- readRDS("~/path/to/object")
-# Visualization for Figure 2A
-new.cluster.ids <- c("Myoepithelial", "Luminal-AV", "Myoepithelial", "Luminal-AV", "Luminal-HS", "Luminal-AV", "Luminal-HS", "Myoepithelial", "Luminal-AV", "Luminal-HS", "Myoepithelial")
-seurat.cluster.ids <- scRNA_seq_expt_comb_harmony_umap_2$seurat_clusters
-names(new.cluster.ids) <- levels(scRNA_seq_expt_comb_harmony_umap_2)
-scRNA_seq_expt_comb_harmony_umap_2 <- RenameIdents(scRNA_seq_expt_comb_harmony_umap_2,new.cluster.ids)
-pdf("/apth/to/pdf")
-DimPlot(scRNA_seq_expt_comb_harmony_umap_2, cols = c("springgreen3","deepskyblue","purple"), reduction = "umap", label = TRUE, pt.size = .1, label.size = 9) + theme(text = element_text(size=20, face = "bold")) 
-dev.off()
-
-## For bar plot
 library(readxl)  
 library(plyr)
 library(tibble)
@@ -30,12 +18,12 @@ Closing$Counts <- (Closing$Counts) * -1
 
 FinalCounts <- rbind(Opening, Closing)
 long_DF <- FinalCounts %>% gather("Type", "Count", Counts)
-long_DF$CellType <- factor(long_DF$CellType, levels=c("Luminal-AV", "Luminal-HS", "Myoepithelial"))
+long_DF$CellType <- factor(long_DF$CellType, levels=c("Epi-C1","Epi-C2","Epi-C3","Epi-C4","Epi-C5","Epi-C6","Epi-C7","Epi-C8","Epi-C9","Epi-C10","Epi-C11",))
 
 pdf("path/to/pdf", height = 10, width = 14)
 ggplot(long_DF[order(long_DF$Type, decreasing = F),], aes(y=Count, x=CellType, fill = Direction)) + 
   geom_bar(stat="identity") +
-  scale_fill_manual(values = c("springgreen3","deepskyblue","purple")) + 
+  scale_fill_manual(values = c("deepskyblue","deepskyblue","deepskyblue","springgreen3","springgreen3","springgreen3","springgreen3","purple","purple","purple","purple")) + 
   xlab("Gene Counts") + 
   ylab("Cell Types")+
   guides(fill=guide_legend(title="Direction"))
