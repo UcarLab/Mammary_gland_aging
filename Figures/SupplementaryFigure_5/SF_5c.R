@@ -1,5 +1,7 @@
-## FIGURE 1I - Motifs by Age
-Motifs <- read.csv("~/Desktop/Mice_BC/Subclustering_TCells/ATAC/DiffPeaks/Motifs/Final_Total_Motifs1.txt", sep = '\t', header = F)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+Motifs <- read.csv("path/to/motifs", sep = '\t', header = F)
 Motifs <- Motifs[-1,]
 Motifs <- Motifs[,-1]
 colnames(Motifs) <- c("ID","MotifName", "p_val", "log_FC_Change", "pct.1", "pct.2", "adj_p_val", "CellType")
@@ -23,7 +25,7 @@ for (i in 1:nrow(FinalMotifs)) {
     FinalMotifs$Significance[i] = ""
   }
 }
-write.table(FinalMotifs,"~/Mammary_gland_aging/Motifs_SFig_6j.txt", sep = '\t', row.names = F)
+write.table(FinalMotifs,"path/to/output", sep = '\t', row.names = F)
 Clustering <- FinalMotifs[,c(1,2,4)]
 Clustering1 <- cast(Clustering, MotifName ~ CellType, mean, value = 'log_FC_Change')
 rownames(Clustering1) <- Clustering1$MotifName
@@ -34,7 +36,7 @@ ord <- hclust( dist(data, method = "euclidean"), method = "ward.D" )$order
 ord
 
 #FinalMotifs$CellType <- factor(FinalMotifs$CellType, levels = c("NaiveCD4_LEF1","CD4_CCR7_JUN","IL7R_ICOS","NK","CD8_CCR7","CD8_CCR9","MemoryCD4_CD44", "CD8_GZMK", "CD8_GZMM"))
-FinalMotifs$CellType <- factor(FinalMotifs$CellType, levels = c("NK","CD8_GZMK","CD8_CCR9","NaiveCD4_LEF1","CD8_CCR7","CD4_CCR7_JUN","IL7R_ICOS", "CD8_GZMM", "MemoryCD4_CD44"))
+FinalMotifs$CellType <- factor(FinalMotifs$CellType, levels = c("Fibroblasts"))
 
 RS <- FinalMotifs[,c(1,5)]
 RS1 <- RS %>% group_by_all() %>% summarise(COUNT = n())
@@ -44,7 +46,7 @@ colnames(RS1) <- "MotifName"
 
 FinalMotifs <- merge(RS1, FinalMotifs)
 
-pdf("./TCells_ATAC_Fig1H_Nov.pdf", height = 12, width = 12)
+pdf("path/to/pdf", height = 12, width = 12)
 ggplot(FinalMotifs, aes(MotifName, CellType, fill= log_FC_Change)) +
   geom_tile() +
   scale_fill_distiller(palette = "PuOr", ) +

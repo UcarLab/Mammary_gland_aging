@@ -1,0 +1,11 @@
+library(Seurat)
+library(ggplot2)
+library(stringr)
+library(reshape2)
+library(dplyr)
+
+scRNA_seq_expt <- readRDS("~/path/to/Seurat.rds")
+scRNA_seq_expt_new <- subset(scRNA_seq_expt, idents = c("Doublet"), invert = TRUE)
+pdf("~/path/to/file")
+DimPlot(scRNA_seq_expt_new, cols = c("#FFCC33", "#FF9933", "#746CB1", "#1BBDC1", "#09713A", "#3DB54A", "#c00000", "#A0D082", "#8AB6E1", "#262262", "#BD77B2"), reduction = "umap", label = TRUE, pt.size = 0.5, split.by = "orig.ident") + NoLegend()
+dev.off()
